@@ -1,5 +1,4 @@
 # 4chan-downloader
-
 Python tool to download all images, gifs and webms in a 4chan thread
 
 # Installation
