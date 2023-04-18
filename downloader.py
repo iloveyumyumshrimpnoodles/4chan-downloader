@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import argparse, time, os, hashlib
+import argparse, time, os, hashlib, traceback
 
 from os.path import exists, join
 from queue import Queue
@@ -86,7 +86,7 @@ class Downloader:
         """
 
         for entry in os.scandir(args.output):
-            if not entry.is_file: # skip directories
+            if not entry.is_file(): # skip directories
                 continue
 
             file = entry.path
@@ -259,13 +259,17 @@ if __name__ == "__main__":
                 break
 
             time.sleep(
-                uniform(15, 25) # wait between 15-25 seconds before rechecking
+                uniform(35, 55) # wait between 15-25 seconds before rechecking
             )
 
             print() # empty line
             logging.info("Rechecking...")
 
-        except:
+        except KeyboardInterrupt:
+            break
+
+        except Exception:
+            logging.error(f"Exception occurred: {traceback.format_exc()}")
             break
 
     print()
